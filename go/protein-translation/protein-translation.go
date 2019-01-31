@@ -34,8 +34,8 @@ func FromCodon(codon string) string {
 func FromRNA(strand string) []string {
 	var proteinSlice []string
 
-	for i := 1; i <= len(strand); i = i + 3 {
-		codon := fmt.Sprintf("%s%s%s", strand[i], strand[i+1], strand[i+2])
+	for i := 1; i <= len(strand)-3; i = i + 3 {
+		codon := fmt.Sprintf("%b%b%b", strand[i], strand[i+1], strand[i+2])
 		protein := FromCodon(codon)
 		proteinSlice = append(proteinSlice, protein)
 	}
