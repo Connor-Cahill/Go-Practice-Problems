@@ -6,7 +6,7 @@ import (
 )
 
 //FromCodon takes in an RNA Codon as a string and returns the protein
-func FromCodon(codon string) string {
+func FromCodon(codon string) (string, error) {
 	var protein string
 	s := strings.ToLower(codon)
 	switch {
@@ -27,17 +27,24 @@ func FromCodon(codon string) string {
 	case s == "uaa" || s == "uag" || s == "uga":
 		protein = ""
 	}
-	return protein
+	return protein, nil
 }
 
 //FromRNA takes in an RNA strand and returns slice of proteins
-func FromRNA(strand string) []string {
+func FromRNA(strand string) ([]string, error) {
 	var proteinSlice []string
 
-	for i := 1; i <= len(strand)-3; i = i + 3 {
-		codon := fmt.Sprintf("%b%b%b", strand[i], strand[i+1], strand[i+2])
-		protein := FromCodon(codon)
+	for i := 0; i <= len(strand)-3; i = i + 3 {
+		codon := string(strand[i]) + string(strand[i+1]) + string(strand[i+2])
+		fmt.Println(codon)
+		protein, err := FromCodon(string(codon))
+		if err != nil {
+			panic(err)
+		}
+		if protein == "" {
+			return proteinSlice, nil
+		}
 		proteinSlice = append(proteinSlice, protein)
 	}
-	return proteinSlice
+	return proteinSlice, nil
 }
