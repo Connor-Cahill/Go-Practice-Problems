@@ -34,7 +34,7 @@ func FromCodon(codon string) (string, error) {
 func FromRNA(strand string) ([]string, error) {
 	var proteinSlice []string
 
-	for i := 0; i <= len(strand)-3; i = i + 3 {
+	for i := 0; i <= len(strand)-3; i += 3 {
 		codon := string(strand[i]) + string(strand[i+1]) + string(strand[i+2])
 		fmt.Println(codon)
 		protein, err := FromCodon(string(codon))
